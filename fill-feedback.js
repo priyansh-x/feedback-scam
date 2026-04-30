@@ -1,14 +1,23 @@
+/**
+ * feedback-scam
+ *
+ * Automates BITS Pilani ERP semester feedback forms using Playwright over CDP.
+ * Connects to an existing Chrome session, finds every pending Overall Sem Feedback,
+ * selects the neutral middle option for every rating question, fills text fields
+ * with ".", saves, and moves to the next course. Fully unattended.
+ *
+ * Usage: node fill-feedback.js [--start=N] [--count=N]
+ */
+
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
-const { phrases } = require('./phrases');
 
 const SCREENSHOTS_DIR = path.join(__dirname, 'screenshots');
 const TIMEOUT = 60_000;
 const NAV_SELECT_SEL = '#\\$ICField100\\$hpage\\$0';
 
-function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function randomIndex(n) { return Math.floor(Math.random() * n); }
+// CSS ID escaping — PeopleSoft loves $ in IDs and CSS doesn't
 function escId(id) { return '#' + id.replace(/\$/g, '\\$'); }
 
 // Find the PeopleSoft content frame — works for classic (TargetContent), Fluid wrappers, and
@@ -72,23 +81,21 @@ async function getTextareaIds(frame) {
 async function fillCurrentPage(frame) {
   await frame.evaluate(() => window.scrollTo(0, 0));
 
-  // --- Checkboxes: one random pick per question group ---
+  // Checkboxes: always pick the middle option (neutral) from each question group
   const groups = await getCheckboxGroups(frame);
-  console.log(`  ${groups.length} checkbox group(s) — sizes [${groups.map(g => g.length).join(',')}]`);
-  for (let i = 0; i < groups.length; i++) {
-    const ids = groups[i];
-    // Always pick the middle (neutral) option
-    const pickId = ids[Math.floor((ids.length - 1) / 2)];
-    const cb = frame.locator(escId(pickId));
+  console.log(`  ${groups.length} question(s) — sizes [${groups.map(g => g.length).join(',')}]`);
+  for (const ids of groups) {
+    const neutralId = ids[Math.floor((ids.length - 1) / 2)];
+    const cb = frame.locator(escId(neutralId));
     await cb.scrollIntoViewIfNeeded();
     await cb.waitFor({ state: 'visible', timeout: TIMEOUT });
     await cb.check({ timeout: TIMEOUT });
     await waitForPSReady(frame);
   }
 
-  // --- Textareas ---
+  // Text fields: the absolute minimum required to not leave them blank
   const taIds = await getTextareaIds(frame);
-  console.log(`  ${taIds.length} textarea(s)`);
+  console.log(`  ${taIds.length} text field(s)`);
   for (const id of taIds) {
     const ta = frame.locator(escId(id));
     await ta.scrollIntoViewIfNeeded();

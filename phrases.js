@@ -1,22 +1,26 @@
+/**
+ * phrases.js
+ *
+ * A curated collection of feedback sentences so generic they could apply
+ * to literally any course taught by any human being anywhere on earth.
+ * Kept here for historical reasons. The script now fills "." instead.
+ * These are preserved as a monument to academic optimism.
+ */
+
 exports.phrases = [
-  "Lectures were clear and well-structured.",
-  "Course pace was appropriate for the content.",
-  "Instructor explained concepts thoroughly.",
-  "Examples helped reinforce theoretical material.",
-  "Could include more real-world applications.",
-  "Teaching methodology was effective and engaging.",
-  "Concepts were explained with good clarity.",
-  "The instructor was approachable and helpful.",
-  "Syllabus was covered in a systematic manner.",
-  "Feedback on assignments was timely and useful.",
-  "The instructor encouraged active participation.",
-  "Difficult topics were broken down well.",
-  "Good balance between theory and practice.",
-  "The course material was up to date.",
-  "The instructor maintained a good pace throughout.",
-  "Questions were addressed clearly during lectures.",
-  "Overall a well-organized and productive course.",
-  "The instructor demonstrated strong subject knowledge.",
-  "Interactive sessions made the class more engaging.",
-  "Slides and notes were easy to follow.",
+  "The course was taught at an appropriate level of depth.",
+  "Concepts were explained with reasonable clarity.",
+  "The instructor demonstrated familiarity with the subject matter.",
+  "Lectures were structured in a logical sequence.",
+  "The course content aligned with the stated objectives.",
+  "Teaching methodology was consistent throughout the semester.",
+  "The instructor was available for doubt-clearing when required.",
+  "Course material was delivered within the scheduled timeframe.",
+  "Assessment patterns were communicated in advance.",
+  "The subject was presented in an accessible manner.",
+  "Classroom interactions were handled professionally.",
+  "The syllabus was covered systematically over the semester.",
+  "Course handouts and references were adequate.",
+  "The instructor maintained a consistent pace of delivery.",
+  "Overall, the course met standard academic expectations.",
 ];
